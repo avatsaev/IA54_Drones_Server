@@ -22,7 +22,7 @@ io.on('connection', (socket) =>{
 
     console.log("get drone list");
 
-    socket.emit("onDroneList", drones);
+    socket.emit("onDroneList", {drones});
 
   });
 

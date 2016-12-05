@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/avatsaev/IA54_Drones_Server#readme",
   "dependencies": {
-    "socketio": "^1.0.0"
+    "socketio": "^1.0.0",
+    "uuid": "^3.0.1"
   }
 }

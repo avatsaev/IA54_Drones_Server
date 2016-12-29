@@ -1,4 +1,4 @@
-let io = require('socket.io')(8080);
+let io = require('socket.io').listen(8080);
 
 let DroneAgent = require("./Drones/DroneAgent");
 
@@ -30,5 +30,3 @@ io.on('connection', (socket) =>{
 
   });
 })
-
-

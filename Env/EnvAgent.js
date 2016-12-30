@@ -20,7 +20,7 @@ class EnvAgent {
 
   }
 
-  init(dronesN, intrudersN){
+  init(dronesN, intrudersN, antennasN){
 
     //Drones
 
@@ -65,7 +65,9 @@ class EnvAgent {
       this.addAgent(d);
     }
 
-
+    for(let i = 0; i<antennasN;i++){
+    //à finir pour initialiser les antennes, elles ont pas d'uuid, et sont identifiée par leur position qui est unique
+    }
 
 
   }

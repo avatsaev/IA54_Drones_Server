@@ -1,6 +1,6 @@
 ##Install
 
-Install nodejs 7.x
+Install nodejs 6.x
 
 https://nodejs.org/en/
 

@@ -32,6 +32,12 @@ console.log(mainEnv)
 io.on('connection', (socket) =>{
   console.log("connected");
 
+
+  socket.on('env_init', (data)=>{
+    console.log("init env...")
+    console.log(data['test'])
+  });
+
   // socket.on('move', (data) =>{
   //   console.log(`onMove ${data.x} sdsd`);
   //   socket.emit("onMove", {"x_": 12});

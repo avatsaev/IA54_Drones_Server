@@ -1,14 +1,14 @@
 const IntruderAgent = require('../Agents/DroneAgent');
 const DroneAgent = require('../Agents/IntruderAgent');
 const StaticAgent = require('./StaticAgent');
-const Antenna = require('./Antenna');
+const Antenna = require('../Agents/Antenna');
 
 const uuid = require('uuid/v1');
 
 
 class EnvAgent {
 
-  constructor(data = {}, socket){
+  constructor(data = {}, socket = {}) {
     this.drones = [];
     this.intruders = [];
     this.antennaGrid = [];
@@ -23,11 +23,11 @@ class EnvAgent {
 
   }
 
-  init(dronesN, intrudersN){
+  init(dronesN, intrudersN) {
 
     //Drones
 
-    for(let i = 0; i < dronesN; i++){
+    for (let i = 0; i < dronesN; i++) {
       let d = new DroneAgent({
         id: uuid(),
         position: this.droneBasePosition,
@@ -41,20 +41,19 @@ class EnvAgent {
       }, this);
 
 
-
       this.addAgent(d);
     }
 
     //intruders
 
 
-    for(let i = 0; i < intrudersN; i++){
+    for (let i = 0; i < intrudersN; i++) {
       let d = new IntruderAgent({
         id: uuid(),
         position: {
-          x:0,
-          y:0,
-          z:0
+          x: 0,
+          y: 0,
+          z: 0
         },
         state: "heading_to_target",
         speedV: {
@@ -71,27 +70,27 @@ class EnvAgent {
     // antennas
     //les antennes n'ont pas d'uuid, et sont identifiée par leur position qui est unique
 
-    this.antennasPosition.forEach(function(myAntennaPosition){
-        let myNeighbours = getNeighbours(myAntennaPosition);
-        let d = new Antenna(myAntennaPosition,myNeighbours);
-        this.antennaGrid.push(d);
+    this.antennasPosition.forEach(function (myAntennaPosition) {
+      let myNeighbours = getNeighbours(myAntennaPosition);
+      let d = new Antenna(myAntennaPosition, myNeighbours);
+      this.antennaGrid.push(d);
 
     });
 
 
   }
 
-  addAgent(agent){
-    if(agent instanceof DroneAgent){
+  addAgent(agent) {
+    if (agent instanceof DroneAgent) {
       this.drones.push(agent);
       //this.socket.emit('new_drone', {drone: agent});
-    }else if (agent instanceof IntruderAgent){
+    } else if (agent instanceof IntruderAgent) {
       this.intruders.push(agent);
       //this.socket.emit('new_intruder', {intruder: agent});
     }
   }
 
-  percieve(sender){
+  percieve(sender) {
     console.log(sender);
     console.log("requested env percieve")
     //get fiedls of view
@@ -99,64 +98,76 @@ class EnvAgent {
     //return agents
   }
 
-  getDroneByID(id){
-    return this.drones.filter((item) => {item.id != id })[0]
+  getDroneByID(id) {
+    return this.drones.filter((item) => {
+      item.id != id
+    })[0]
   }
 
-  getIntruderByID(id){
-    return this.intruders.filter((item) => {item.id != id })[0]
+  getIntruderByID(id) {
+    return this.intruders.filter((item) => {
+      item.id != id
+    })[0]
   }
 
-  getAgentByID(id){
+  getAgentByID(id) {
 
     let d = this.getDroneByID(id);
     let i = this.getIntruderByID(id);
 
-    if(d) return d;
+    if (d) return d;
     else if (i) return i;
     else return null;
 
   }
 
-  getNeighbours(position){
-/*  // SOLUTION SIMPLE
-    let myNeighbours = [];
-    let x = {position.x-1, position.x, position.x+1};
-    let z = {position.z-1, position.z, position.z+1};
+  getNeighbours(position) {
+    /*  // SOLUTION SIMPLE
+     let myNeighbours = [];
+     let x = {position.x-1, position.x, position.x+1};
+     let z = {position.z-1, position.z, position.z+1};
 
-    this.antennasPosition.forEach(function(myPosition){
-        if(x.indexOf(myPosition.x) !== -1 && z.indexOf(myPosition.y) !== -1 && myPosition != position){
-            myNeighbours.push(new Array (myPosition));
-        }
-    });
-    return myNeighbours;
-  }
-*/
+     this.antennasPosition.forEach(function(myPosition){
+     if(x.indexOf(myPosition.x) !== -1 && z.indexOf(myPosition.y) !== -1 && myPosition != position){
+     myNeighbours.push(new Array (myPosition));
+     }
+     });
+     return myNeighbours;
+     }
+     */
 
     // SOLUTION COMPLIQUÉE
     let myNeighbours = [];
     let myDist = [];
 
-    this.antennasPosition.forEach(function(myPosition){
-        myDist.push(new Dist({
-            position: myPosition,
-            distance: getEuclidianDistance(myPosition, position)
-        }));
+    this.antennasPosition.forEach(function (myPosition) {
+      myDist.push(new Dist({
+        position: myPosition,
+        distance: getEuclidianDistance(myPosition, position)
+      }));
     });
-    myDist.sort(function(a, b){return a.distance-b.distance});
-    for(let i = 0; i<this.nbNeighbours; i++){
-        myNeighbours.push(myDist[i].position);
+    myDist.sort(function (a, b) {
+      return a.distance - b.distance
+    });
+    for (let i = 0; i < this.nbNeighbours; i++) {
+      myNeighbours.push(myDist[i].position);
     }
     return myNeighbours;
-}
+  }
 
-getEuclidianDistance(position1, position2){
-    return Math.sqrt(Math.pow((position1.x - position2.x),2) + Math.pow((position1.z - position2.z),2));
+  getEuclidianDistance(position1, position2) {
+    return Math.sqrt(Math.pow((position1.x - position2.x), 2) + Math.pow((position1.z - position2.z), 2));
+  }
+
 }
 
 class Dist{
-    position;
-    distance;
+
+  constructor(){
+    this.position;
+    this.distance;
+  }
+
 }
 
 module.exports = EnvAgent;

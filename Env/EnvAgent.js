@@ -1,6 +1,7 @@
 const IntruderAgent = require('../Agents/DroneAgent');
 const DroneAgent = require('../Agents/IntruderAgent');
 const StaticAgent = require('./StaticAgent');
+const Antenna = require('./Antenna');
 
 const uuid = require('uuid/v1');
 
@@ -12,6 +13,8 @@ class EnvAgent {
     this.intruders = [];
     this.antennaGrid = [];
     this.droneBasePosition = data.drone_base_position;
+    this.antennasPosition = data.antennas_position;             // rajouté par margaux liste des positions des antennes (Vecteur3, x,y et z)
+    this.nbNeighbours = data.nb_neighbours;                     // rajouté par margaux pour déterminer le nombre d'antennes qui constituent les voisins
     this.POIPositions = data.poi_positions; //points of interest
 
     this.socket = socket;
@@ -65,7 +68,15 @@ class EnvAgent {
       this.addAgent(d);
     }
 
+    // antennas
+    //les antennes n'ont pas d'uuid, et sont identifiée par leur position qui est unique
 
+    this.antennasPosition.forEach(function(myAntennaPosition){
+        let myNeighbours = getNeighbours(myAntennaPosition);
+        let d = new Antenna(myAntennaPosition,myNeighbours);
+        this.antennaGrid.push(d);
+
+    });
 
 
   }
@@ -107,7 +118,45 @@ class EnvAgent {
 
   }
 
+  getNeighbours(position){
+/*  // SOLUTION SIMPLE
+    let myNeighbours = [];
+    let x = {position.x-1, position.x, position.x+1};
+    let z = {position.z-1, position.z, position.z+1};
+
+    this.antennasPosition.forEach(function(myPosition){
+        if(x.indexOf(myPosition.x) !== -1 && z.indexOf(myPosition.y) !== -1 && myPosition != position){
+            myNeighbours.push(new Array (myPosition));
+        }
+    });
+    return myNeighbours;
+  }
+*/
+
+    // SOLUTION COMPLIQUÉE
+    let myNeighbours = [];
+    let myDist = [];
+
+    this.antennasPosition.forEach(function(myPosition){
+        myDist.push(new Dist({
+            position: myPosition,
+            distance: getEuclidianDistance(myPosition, position)
+        }));
+    });
+    myDist.sort(function(a, b){return a.distance-b.distance});
+    for(let i = 0; i<this.nbNeighbours; i++){
+        myNeighbours.push(myDist[i].position);
+    }
+    return myNeighbours;
 }
 
+getEuclidianDistance(position1, position2){
+    return Math.sqrt(Math.pow((position1.x - position2.x),2) + Math.pow((position1.z - position2.z),2));
+}
+
+class Dist{
+    position;
+    distance;
+}
 
 module.exports = EnvAgent;

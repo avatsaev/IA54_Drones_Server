@@ -6,8 +6,8 @@ class Antenna{
         this.positionNeighbours = positionNeighbours;
         positionNeighbours.forEach(function(neighbour){
             var myNeighbour = new InfoAntenna{
-                position = neighbour;
-                nbIntruders = 0;
+                position : neighbour,
+                nbIntruders : 0
             }
             this.infoAntennas.push(myNeighbour);
         });

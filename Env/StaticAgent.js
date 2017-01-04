@@ -1,6 +1,4 @@
 
-
-
 class StaticAgent {
 
   constructor(data, env){
@@ -10,6 +8,5 @@ class StaticAgent {
   }
 
 }
-
 
 module.exports = StaticAgent;

@@ -140,13 +140,13 @@ class EnvAgent {
     let myNeighbours = [];
     let myDist = [];
 
-    this.antennasPosition.forEach(function (myPosition) {
+    this.antennasPosition.forEach((myPosition) => {
       myDist.push(new Dist({
         position: myPosition,
         distance: getEuclidianDistance(myPosition, position)
       }));
     });
-    myDist.sort(function (a, b) {
+    myDist.sort((a, b) => {
       return a.distance - b.distance
     });
     for (let i = 0; i < this.nbNeighbours; i++) {
@@ -163,9 +163,9 @@ class EnvAgent {
 
 class Dist{
 
-  constructor(){
-    this.position;
-    this.distance;
+  constructor(data){
+    this.position = data.position;
+    this.distance = data.distance;
   }
 
 }

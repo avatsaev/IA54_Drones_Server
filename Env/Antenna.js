@@ -1,6 +1,11 @@
-class Antenna{
+const StaticAgent = require('./StaticAgent');
+const uuid = require('uuid/v1');
+
+class Antenna extends StaticAgent{
     constructor(position, positionNeighbours){
-        this.position = position;
+
+        super({position: position, id: uuid(), null})
+
         this.nbIntruders = 0;
         this.infoAntennas = [];
         this.positionNeighbours = positionNeighbours;

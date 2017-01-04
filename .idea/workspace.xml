@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b77d094c-3827-4bec-9111-4951888966cc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Agents/Antenna.js" afterPath="$PROJECT_DIR$/Agents/Antenna.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Env/EnvAgent.js" afterPath="$PROJECT_DIR$/Env/EnvAgent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="IA54_Drones_Server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -276,12 +274,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1483046915424</updated>
-      <workItem from="1483189044771" duration="1012000" />
+      <workItem from="1483189044771" duration="1456000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1012000" />
+    <option name="totallyTimeSpent" value="1456000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />

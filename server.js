@@ -3,7 +3,7 @@ let io = require('socket.io').listen(8080);
 let DroneAgent = require("./Agents/DroneAgent");
 let IntruderAgent = require('./Agents/IntruderAgent');
 let EnvAgent = require('./Env/EnvAgent');
-let BeaconAgent = require('./Env/BeaconAgent');
+let BeaconAgent = require('./Env/Antenna');
 
 
 
@@ -16,7 +16,12 @@ let mainEnv = new EnvAgent({
   poi_positions: [
     {x:1, y:0, z:0},
     {x:1, y:0, z:1},
-    {x:0, y:0, z:1},
+    {x:0, y:0, z:1}
+  ],
+  antennas_position:[
+    {x:1, y:0, z:0},
+    {x:1, y:0, z:1},
+    {x:0, y:0, z:1}
   ]
 
 });

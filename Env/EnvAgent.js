@@ -1,7 +1,7 @@
 const IntruderAgent = require('../Agents/DroneAgent');
 const DroneAgent = require('../Agents/IntruderAgent');
 const StaticAgent = require('./StaticAgent');
-const Antenna = require('../Agents/Antenna');
+const Antenna = require('./Antenna');
 
 const uuid = require('uuid/v1');
 
@@ -69,9 +69,9 @@ class EnvAgent {
 
     // antennas
     //les antennes n'ont pas d'uuid, et sont identifiée par leur position qui est unique
-
-    this.antennasPosition.forEach(function (myAntennaPosition) {
-      let myNeighbours = getNeighbours(myAntennaPosition);
+    let self = this;
+    this.antennasPosition.forEach((myAntennaPosition) => {
+      let myNeighbours = self.getNeighbours(myAntennaPosition);
       let d = new Antenna(myAntennaPosition, myNeighbours);
       this.antennaGrid.push(d);
 
@@ -143,7 +143,7 @@ class EnvAgent {
     this.antennasPosition.forEach((myPosition) => {
       myDist.push(new Dist({
         position: myPosition,
-        distance: getEuclidianDistance(myPosition, position)
+        distance: this.getEuclidianDistance(myPosition, position)
       }));
     });
     myDist.sort((a, b) => {
